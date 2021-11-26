@@ -131,7 +131,7 @@ export class MangoClient {
 
   async sendTransactions(
     transactions: Transaction[],
-    payer: Account | WalletAdapter,
+    payer: Account | Keypair | WalletAdapter,
     additionalSigners: Account[],
     timeout = 30000,
     confirmLevel: TransactionConfirmationStatus = 'confirmed',
@@ -174,7 +174,7 @@ export class MangoClient {
       transaction: Transaction;
       signers?: Array<Account>;
     }[];
-    payer: Account | WalletAdapter;
+    payer: Account | Keypair | WalletAdapter;
   }) {
     const blockhash = (await this.connection.getRecentBlockhash('max'))
       .blockhash;
@@ -203,7 +203,7 @@ export class MangoClient {
   // TODO - switch Account to Keypair and switch off setSigners due to deprecated
   async sendTransaction(
     transaction: Transaction,
-    payer: Account | WalletAdapter | Keypair,
+    payer: Account | Keypair | WalletAdapter,
     additionalSigners: Account[],
     timeout = 30000,
     confirmLevel: TransactionConfirmationStatus = 'processed',
@@ -379,7 +379,7 @@ export class MangoClient {
     quoteOptimalUtil: number,
     quoteOptimalRate: number,
     quoteMaxRate: number,
-    payer: Account | WalletAdapter,
+    payer: Account | Keypair | WalletAdapter,
   ): Promise<PublicKey> {
     const accountInstruction = await createAccountInstruction(
       this.connection,
@@ -879,7 +879,7 @@ export class MangoClient {
     mangoGroup: PublicKey,
     mangoCache: PublicKey,
     rootBanks: PublicKey[],
-    payer: Account | WalletAdapter,
+    payer: Account | Keypair | WalletAdapter,
   ): Promise<TransactionSignature> {
     const cacheRootBanksInstruction = makeCacheRootBankInstruction(
       this.programId,
@@ -901,7 +901,7 @@ export class MangoClient {
     mangoGroup: PublicKey,
     mangoCache: PublicKey,
     oracles: PublicKey[],
-    payer: Account | WalletAdapter,
+    payer: Account | Keypair | WalletAdapter,
   ): Promise<TransactionSignature> {
     const cachePricesInstruction = makeCachePricesInstruction(
       this.programId,
@@ -945,7 +945,7 @@ export class MangoClient {
     mangoGroup: MangoGroup,
     rootBank: PublicKey,
     nodeBanks: PublicKey[],
-    payer: Account | WalletAdapter,
+    payer: Account | Keypair | WalletAdapter,
   ): Promise<TransactionSignature> {
     const updateRootBanksInstruction = makeUpdateRootBankInstruction(
       this.programId,
@@ -2445,7 +2445,7 @@ export class MangoClient {
     mangoGroup: MangoGroup,
     liqee: MangoAccount,
     perpMarket: PerpMarket,
-    payer: Account | WalletAdapter,
+    payer: Account | Keypair | WalletAdapter,
     limitPerInstruction: number,
   ): Promise<TransactionSignature> {
     const transaction = new Transaction();
@@ -2717,7 +2717,7 @@ export class MangoClient {
     mangoGroup: MangoGroup,
     mangoAccount: MangoAccount,
     perpMarket: PerpMarket,
-    payer: Account | WalletAdapter,
+    payer: Account | Keypair | WalletAdapter,
     mngoRootBank: PublicKey,
     mngoNodeBank: PublicKey,
     mngoVault: PublicKey,
@@ -2744,7 +2744,7 @@ export class MangoClient {
   async redeemAllMngo(
     mangoGroup: MangoGroup,
     mangoAccount: MangoAccount,
-    payer: Account | WalletAdapter,
+    payer: Account | Keypair | WalletAdapter,
     mngoRootBank: PublicKey,
     mngoNodeBank: PublicKey,
     mngoVault: PublicKey,
@@ -3382,7 +3382,7 @@ export class MangoClient {
     mangoAccount: MangoAccount,
     mangoCache: MangoCache,
     perpMarket: PerpMarket,
-    payer: Account | WalletAdapter,
+    payer: Account | Keypair | WalletAdapter,
     orderIndex: number,
   ): Promise<TransactionSignature> {
     const openOrders = mangoAccount.spotOpenOrders.filter(
@@ -3412,7 +3412,7 @@ export class MangoClient {
   async updateMarginBasket(
     mangoGroup: MangoGroup,
     mangoAccount: MangoAccount,
-    payer: Account | WalletAdapter,
+    payer: Account | Keypair | WalletAdapter,
   ) {
     const instruction = makeUpdateMarginBasketInstruction(
       this.programId,
